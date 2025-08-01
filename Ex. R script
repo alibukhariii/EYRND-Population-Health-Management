@@ -1,0 +1,7 @@
+Ex. R script
+/* install.packages("cancensus")
+library(cancensus)
+options(cancensus.api_key='CensusMapper_3ff7582959d1e021309c4448e3a440b4')
+options(cancensus.cache_path = <your long term cache path>)
+
+census_data <- get_census(dataset='CA21', regions=list(DA=c("35191295","35204733")), vectors=c("v_CA21_3","v_CA21_7","v_CA21_4","v_CA21_9","v_CA21_10","v_CA21_387","v_CA21_388","v_CA21_390","v_CA21_391","v_CA21_434","v_CA21_435","v_CA21_436","v_CA21_437","v_CA21_438","v_CA21_439","v_CA21_440","v_CA21_441","v_CA21_442","v_CA21_452","v_CA21_548","v_CA21_545","v_CA21_549","v_CA21_457","v_CA21_458","v_CA21_546","v_CA21_1026","v_CA21_1027","v_CA21_1071","v_CA21_1072","v_CA21_1101","v_CA21_1102","v_CA21_1139","v_CA21_907","v_CA21_910","v_CA21_913","v_CA21_960","v_CA21_1172","v_CA21_1173","v_CA21_1148","v_CA21_1149","v_CA21_1154","v_CA21_1155","v_CA21_1157","v_CA21_1158","v_CA21_1163","v_CA21_1164","v_CA21_1649","v_CA21_1650","v_CA21_1937","v_CA21_1938","v_CA21_1916","v_CA21_1917","v_CA21_1832","v_CA21_1833","v_CA21_1859","v_CA21_1860","v_CA21_1871","v_CA21_1872","v_CA21_1826","v_CA21_1827","v_CA21_1829","v_CA21_1830","v_CA21_2054","v_CA21_2055","v_CA21_2066","v_CA21_2067","v_CA21_1898","v_CA21_1899","v_CA21_1895","v_CA21_1896","v_CA21_2177","v_CA21_2178","v_CA21_2189","v_CA21_2190","v_CA21_2198","v_CA21_2199","v_CA21_3182","v_CA21_3183"), labels="detailed", geo_format=NA, level='DA')

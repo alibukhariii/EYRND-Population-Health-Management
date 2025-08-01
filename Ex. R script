@@ -12,9 +12,7 @@ options(cancensus.cache_path = "~/cancensus_cache")  # Example: use home directo
 # options(cancensus.cache_path = "C:/Users/YourName/Documents/cancensus_cache")  # Windows
 
 # All DAs from the provided list (490 total; including duplicates mapped to more than one FSA)
-Here is the full R command with all 490 Dissemination Areas (DAs) stored in a single `da_list` vector:
 
-```r
 da_list <- c(
   35180017, 35180018, 35180019, 35180021, 35180022, 35180024, 35180025, 35180026, 35180027, 35180028,
   35180035, 35180035, 35180038, 35180056, 35180057, 35180058, 35180806, 35180807, 35180853, 35180856,

@@ -7,6 +7,8 @@
     # Counts number of those catchment DAs that straddle multiple FSAs
     # For straddling DAs, takes the proportion of postal codes (rows) assigned to each FSA for each DA
     # The above porportion will be used as a weight when assigning counts or summary statistics at the DA-level to each FSA to account for differing population distribution
+    # It also adds a column called DominantFSA which automatically assigns a single FSA to a single DA based on whether that DA contains >50% of that FSAs postal codes. 
+        # This is not the preferred method of allocation as no DA has a dominant FSA of L6G since the majority of DAs which straddle it have postal codes outside of its boundaries
 
 import pandas as pd
 
@@ -44,13 +46,26 @@ da_total_counts = df.groupby('DAuid').size().reset_index(name='TotalCount')
 da_fsa_merged = pd.merge(da_fsa_counts, da_total_counts, on='DAuid')
 da_fsa_merged['Proportion'] = da_fsa_merged['Count'] / da_fsa_merged['TotalCount']
 
+# === NEW: Assign Dominant FSA if proportion > 0.5 ===
+dominant_fsa_df = da_fsa_merged.sort_values(['DAuid', 'Proportion'], ascending=[True, False]) \
+                                .drop_duplicates(subset='DAuid', keep='first')
+
+# Only assign if > 50%
+dominant_fsa_df['DominantFSA'] = dominant_fsa_df.apply(
+    lambda row: row['FSA'] if row['Proportion'] > 0.5 else None, axis=1
+)
+
+# Merge back to full proportion table
+da_fsa_merged = da_fsa_merged.merge(dominant_fsa_df[['DAuid', 'DominantFSA']], on='DAuid', how='left')
+
 # Final summary
 summary = {
     'Total FSAs': total_fsas,
     'Total FSAs in Catchment': catchment_fsa_count,
     'Total Unique DAs': total_unique_das,
     'Unique DAs in Catchment': unique_das_catchment,
-    'DAs straddling >1 FSA': num_das_straddling
+    'DAs straddling >1 FSA': num_das_straddling,
+    'DAs assigned Dominant FSA': dominant_fsa_df['DominantFSA'].notna().sum()
 }
 
 print("=== Summary ===")
@@ -60,5 +75,5 @@ for k, v in summary.items():
 print("\n=== DA Proportions by FSA (Sample) ===")
 print(da_fsa_merged.sort_values('DAuid').head(10))  # Preview first 10
 
-# Optional: Save the DA-FSA proportions to CSV
-da_fsa_merged.to_csv('DA_FSA_Proportions.csv', index=False)
+# Optional: Save output
+da_fsa_merged.to_csv('DA_FSA_Proportions_with_Dominant.csv', index=False)

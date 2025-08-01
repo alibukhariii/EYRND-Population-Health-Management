@@ -1,0 +1,64 @@
+# Date: Aug. 1, 2025
+# Programmer: Ali Bukhari
+# Purpose: There are a certain amount of DAs that map onto multiple FSAs.
+# Inputs: PCCF+ 2021 (Postal Code x FSA x CSD x DA x Coordinates; unique row for each postal code)
+# Method: 
+    # Counts unique DAs in Ontario; then in catchment area FSAs
+    # Counts number of those catchment DAs that straddle multiple FSAs
+    # For straddling DAs, takes the proportion of postal codes (rows) assigned to each FSA for each DA
+    # The above porportion will be used as a weight when assigning counts or summary statistics at the DA-level to each FSA to account for differing population distribution
+
+import pandas as pd
+
+# Load the data
+file_path = 'PCCF+ OnMargIndex.xlsm'
+df = pd.read_excel(file_path, sheet_name=0)
+
+# Clean up column names
+df.columns = df.columns.str.strip().str.replace(' ', '_')
+
+# Define catchment FSAs
+catchment_fsas = {"L0C", "L9P", "L3S", "L3R", "L3P", "L3T", "L4A", "L6E", "L6G", "L6B", "L6C"}
+
+# 1. Total number of FSAs in the data
+total_fsas = df['FSA'].nunique()
+
+# 2. Total number of FSAs in catchment area
+catchment_fsa_count = df[df['FSA'].isin(catchment_fsas)]['FSA'].nunique()
+
+# 3. Total number of unique DAs in data
+total_unique_das = df['DAuid'].nunique()
+
+# 4. Total number of unique DAs in catchment area
+catchment_das = df[df['FSA'].isin(catchment_fsas)]
+unique_das_catchment = catchment_das['DAuid'].nunique()
+
+# 5. DAs that straddle more than one FSA
+das_fsa_counts = df.groupby('DAuid')['FSA'].nunique()
+das_straddling_multiple_fsas = das_fsa_counts[das_fsa_counts > 1]
+num_das_straddling = das_straddling_multiple_fsas.count()
+
+# 6. DA proportions by FSA
+da_fsa_counts = df.groupby(['DAuid', 'FSA']).size().reset_index(name='Count')
+da_total_counts = df.groupby('DAuid').size().reset_index(name='TotalCount')
+da_fsa_merged = pd.merge(da_fsa_counts, da_total_counts, on='DAuid')
+da_fsa_merged['Proportion'] = da_fsa_merged['Count'] / da_fsa_merged['TotalCount']
+
+# Final summary
+summary = {
+    'Total FSAs': total_fsas,
+    'Total FSAs in Catchment': catchment_fsa_count,
+    'Total Unique DAs': total_unique_das,
+    'Unique DAs in Catchment': unique_das_catchment,
+    'DAs straddling >1 FSA': num_das_straddling
+}
+
+print("=== Summary ===")
+for k, v in summary.items():
+    print(f"{k}: {v}")
+
+print("\n=== DA Proportions by FSA (Sample) ===")
+print(da_fsa_merged.sort_values('DAuid').head(10))  # Preview first 10
+
+# Optional: Save the DA-FSA proportions to CSV
+da_fsa_merged.to_csv('DA_FSA_Proportions.csv', index=False)

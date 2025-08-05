@@ -1,3 +1,18 @@
+#Date: Aug. 5, 2025
+#Programmer: Ali Bukhari
+#Purpose: 
+    # The Ontario Ministry of Finance provides PHU-level population projects from 2023-2051. The regions of York and Durham are relevant to the EYRND catchment area.
+    # This script disaggregate regional population projections (for York and Durham Regions) into smaller geographies (Dissemination Areas, or DAs) by Sex and Age Group, from 2023 to 2051.
+    # It sccount for border-straddling DAs (only 2) and adjust populations accordingly.
+    # Ensure that DA-level projected populations align with regional-level totals through proportional allocation.
+    # Export a final dataset for DA-level projections for use in further analysis or reporting.
+# Method:
+    # Import data; Clean data and align the two files (DA x AgeGroup x Sex x Pop and Regional projections file) including in age groups
+    # Assign regions to each DA, handling border DAs. Verify the pop totals remain consistent
+    # Calcualte DA pop shares: For each (Region, AgeGroup, Sex) combo, calculate the total regional population and then each DA’s share of that total within the region.
+    # Merge DA shares with regional projections
+    # For each (Region, Year, AgeGroup, Sex), sum the DA-level projections and compare with regional-level projections.
+
 #!/usr/bin/env python
 # coding: utf-8
 

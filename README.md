@@ -14,4 +14,5 @@ Projects:
 3. Population data from Statistics Canada: Pulled from CanCensus API in R for all DAs in the EYRND catchment area
    - Population of each 5-year age group by sex
    - etc
-5. d
+5. Population Projections: Ontario M.O.F data on yearly x agegroup x sex population projection for York and Durham regions, disaggregated manually to the DA level
+6. 

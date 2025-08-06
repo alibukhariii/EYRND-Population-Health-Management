@@ -11,8 +11,8 @@ Projects:
               The main manipulations involved here using Python were:
                1. Obtaining DA identifiers from Statistics Canada --> Subset to Ontario
                2. Mapping each DA to a singular FSA via the PCCF+ 2021 crosswalk. In cases where DAs straddle more than one FSA, the proportion of postal codes within that DA that belong to an FSA were calculated and all future measures (e.g., FSA-level population) were weighed based on this proportion.
-3. Population data from Statistics Canada: Pulled from CanCensus API in R for all DAs in the EYRND catchment area
+2. Population data from Statistics Canada: Pulled from CanCensus API in R for all DAs in the EYRND catchment area
    - Population of each 5-year age group by sex
    - etc
-5. Population Projections: Ontario M.O.F data on yearly x agegroup x sex population projection for York and Durham regions, disaggregated manually to the DA level
-6. 
+3. Population Projections: Ontario M.O.F data on yearly x agegroup x sex population projection for York and Durham regions, disaggregated manually to the DA level
+4. ON-MARG 2021: Three different methods of allocating DAs to FSAs and calculating the % of each FSA's population that belongs to a given quintile in one of the four ON-MARG dimensions are tried.

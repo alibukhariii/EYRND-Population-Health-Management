@@ -1,4 +1,4 @@
-# Date: Aug. 1, 2025
+# Date: Aug. 1, 2025 (UPDATED CATCHMENT FSAs ON Sept. 16)
 # Programmer: Ali Bukhari
 # Purpose: There are a certain amount of DAs that map onto multiple FSAs.
 # Inputs: PCCF+ 2021 (Postal Code x FSA x CSD x DA x Coordinates; unique row for each postal code)
@@ -18,7 +18,7 @@ df = pd.read_excel(file_path, sheet_name=0)
 df.columns = df.columns.str.strip().str.replace(' ', '_')
 
 # Define catchment FSAs
-catchment_fsas = {"L0C", "L9P", "L3S", "L3R", "L3P", "L3T", "L4A", "L6E", "L6G", "L6B", "L6C"}
+catchment_fsas = {"L0C", "L9P", "L3S", "L3R", "L3P", "L3T", "L4A", "L6E", "L6G", "L6B", "L6C", "L1Y","L0H"}
 
 # 1. Total number of FSAs in the data
 total_fsas = df['FSA'].nunique()

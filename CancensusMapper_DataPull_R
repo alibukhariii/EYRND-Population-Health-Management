@@ -1,15 +1,11 @@
 Ex. R script
 /* install.packages("cancensus")
 library(cancensus)
-
 # Set API key
-options(cancensus.api_key='CensusMapper_3ff7582959d1e021309c4448e3a440b4')
+options(cancensus.api_key = 'CensusMapper_3ff7582959d1e021309c4448e3a440b4')
 
-# Set cache path - replace with your desired local directory path
-options(cancensus.cache_path = "~/cancensus_cache")  # Example: use home directory cache
-# Alternative examples:
-# options(cancensus.cache_path = "/path/to/your/cache/directory")
-# options(cancensus.cache_path = "C:/Users/YourName/Documents/cancensus_cache")  # Windows
+# Set and persist cache path
+set_cancensus_cache_path("/Users/alibukhari/Desktop/cancensus_cache", install = TRUE, overwrite=TRUE)
 
 # All DAs from the provided list (490 total; including duplicates mapped to more than one FSA)
 da_list <- c(
@@ -61,7 +57,8 @@ da_list <- c(
   "35191213", "35191214", "35191215", "35191216", "35191217", "35191218", "35191219", "35191219", "35191220", "35191272",
   "35191273", "35191275", "35191276", "35191276", "35191279", "35191279", "35191280", "35191280", "35191280", "35191283",
   "35191284", "35191285", "35191286", "35191292", "35191292", "35191293", "35191294", "35191295", "35191295", "35191353",
-  "35191354", "35191355", "35191356", "35191357", "35191358", "35191359", "35191360", "35191361", "35191362", "35203974", 
+  "35191354", "35191355", "35191356", "35191357", "35191358", "35191359", "35191360", "35191361", "35191362", "35203974",
+  "35180881","35180882","35180883","35180884","35180885","35180929", "35180886","35180927","35190949","35190986","35190987","35190989"
 )
 
 # Get census data
@@ -84,9 +81,13 @@ census_data <- get_census(
     "v_CA21_2190", "v_CA21_2198", "v_CA21_2199", "v_CA21_3182", "v_CA21_3183", "v_CA21_4392",
     "v_CA21_4401","v_CA21_4407","v_CA21_4410","v_CA21_4434","v_CA21_4875","4878","v_CA21_4881",
     "v_CA21_4884","v_CA21_4887","v_CA21_4890","v_CA21_4893","v_CA21_4896","v_CA21_4899",
-    "v_CA21_4902","v_CA21_4905","v_CA21_4908","v_CA21_4911"
-  ), 
+    "v_CA21_4902","v_CA21_4905","v_CA21_4908","v_CA21_4911", "v_CA21_4392","v_CA21_4401","v_CA21_4407","v_CA21_4410","v_CA21_4434","v_CA21_4875","v_CA21_4878","v_CA21_4881","v_CA21_4884","v_CA21_4887","v_CA21_4890","v_CA21_4893","v_CA21_4896","v_CA21_4899","v_CA21_4902","v_CA21_4905","v_CA21_4908","v_CA21_4911", "v_CA21_4914"), 
   labels = "detailed", 
   geo_format = NA, 
   level = 'DA'
 )
+
+write.csv(census_data, file = "/Users/alibukhari/Desktop/census_data_exportv4.csv", row.names = FALSE)
+
+
+
